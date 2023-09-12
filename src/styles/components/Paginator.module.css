@@ -1,0 +1,18 @@
+.buttonContainer {
+    padding: 1rem 0.5rem;
+}
+
+.paginatorButton {
+    margin: 0 0.5rem;
+    padding: 0.1rem 0.8rem;
+    outline: none;
+}
+
+.paginatorInfo {
+    font-size: large;
+}
+
+.rowsSelect {
+    padding: 0.25rem 0.5rem;
+    outline: none;
+}

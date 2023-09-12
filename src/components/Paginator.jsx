@@ -1,3 +1,5 @@
+import style from '@/styles/components/Paginator.module.css';
+
 export default function Paginator({
     count = 1, // Total rows
     limit = 0,
@@ -16,24 +18,25 @@ export default function Paginator({
     }
 
     const getNext = () => {
-
+        const newOffset = offset + limit;
+        if (newOffset > count) {
+            onPagination();
+        } else {
+            onPagination(newOffset);
+        }
     }
-
-    const currentPage = Math.ceil(offset / limit) + 1;
-
-    const maxPage = Math.ceil(count / limit);
 
     return (
         <div className="">
-            <span>
-                <button type="button" onClick={() => onPagination(0)}>SI</button>
-                <button type="button" onClick={() => getPrevious()}>I</button>
-                <span>Page { currentPage } of { maxPage }</span>
-                <button type="button"  onClick={() => onPagination(offset + limit)}>D</button>
-                {/* <button type="button"  onClick={() => onPagination(maxPage)}>SD</button> */}
+            <span className={`${style.buttonContainer}`}>
+                <button type="button" className={`${style.paginatorButton}`} onClick={() => onPagination(0)}>SI</button>
+                <button type="button" className={`${style.paginatorButton}`} onClick={() => getPrevious()}>I</button>
+                <span className={`${style.paginatorInfo}`}>Showing { offset + 1 } to { offset + limit } of { count }</span>
+                <button type="button" className={`${style.paginatorButton}`}  onClick={() => getNext()}>D</button>
+                <button type="button" className={`${style.paginatorButton}`}  onClick={() => onPagination(count - limit)}>SD</button>
             </span>
 
-            <select name="rows" id="rows" value={limit} onChange={(e) => onRowsChange(e.target)}>
+            <select className={style.rowsSelect} name="rows" id="rows" value={limit} onChange={(e) => onRowsChange(e.target)}>
                 <option value="10">10</option>
                 <option value="25">25</option>
                 <option value="50">50</option>
