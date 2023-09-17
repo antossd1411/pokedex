@@ -1,0 +1,17 @@
+.container {
+    background-color: gainsboro;
+    max-width: 40%;
+    max-height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.li {
+    list-style: none;
+}
+
+.link {
+    text-decoration: none;
+    color: black;
+    text-transform: capitalize;
+}

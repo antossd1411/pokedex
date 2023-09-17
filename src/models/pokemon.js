@@ -12,6 +12,8 @@ export default class Pokemons {
         stats = [],
         types = [],
         weight = 0,
+        frontSprite = "",
+        backSprite = "",
     }) {
         this.abilities = abilities;
         this.base_experience = base_experience;
@@ -25,5 +27,7 @@ export default class Pokemons {
         this.stats = stats;
         this.types = types;
         this.weight = weight;
+        this.frontSprite = frontSprite;
+        this.backSprite = backSprite;
     }
 }

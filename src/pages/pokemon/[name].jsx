@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { fetchPokemonByName } from "@/services/pokemon";
 import { useRouter } from "next/router";
 import Pokemons from "@/models/pokemon";
+import Image from "next/image";
+import loadImagePath from "@/utils/image/loader";
 
 export async function getServerSideProps({ params }) {
     try {
@@ -55,7 +57,7 @@ export default function Pokemon({ name }) {
 
                 const result = await response.json();
 
-                setPokemon(new Pokemons({ ...result }));
+                setPokemon(new Pokemons({ ...result, frontSprite: `sprites/master/sprites/pokemon/${result.id}.png`, backSprite: `sprites/master/sprites/pokemon/back/${result.id}.png` }));
             } catch (err) {
                 console.error(err);
             }
@@ -68,8 +70,26 @@ export default function Pokemon({ name }) {
 
     return (
         <main>
+            <div>
+                <button type="button" onClick={() => router.push("/pokemon")}>Back</button>
+            </div>
             <aside>
+            <Image
+                src={pokemon.frontSprite}
+                alt={pokemon.name.concat(" front sprite")}
+                width={100}
+                height={100}
+                loader={loadImagePath}
+            />
+            <Image
+                src={pokemon.backSprite}
+                alt={pokemon.name.concat(" back sprite")}
+                width={100}
+                height={100}
+                loader={loadImagePath}
+            />
                 <p> { pokemon.order.toString().padStart(4, '0') } - { pokemon.name } { pokemon.is_default && "(Initial)" } </p>
+                <p> Base experience: { pokemon.base_experience } XP </p>
                 <p> Height: { pokemon.height } </p>
                 <p> Weight: { pokemon.weight } </p>
                 <p>Types</p>

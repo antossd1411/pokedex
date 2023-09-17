@@ -6,6 +6,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRef, useState } from "react"
 import loadImagePath from "@/utils/image/loader";
+import Nav from "@/components/Nav";
 
 export default function PokemonIndex({}) {
     const [apiResponse, setApiResponse] = useState(new ApiResponse({}));
@@ -80,29 +81,32 @@ export default function PokemonIndex({}) {
     }
 
     return (
-        <main>
-            <button type="button" onClick={() => fetchData()}>Fetch</button>
-            <br />
-            <input type="text" name="name-filter" id="name-filter" onInput={(e) => filterListByItemName(e.target)} />
+        <>
+            <Nav />
+            <main>
+                <button type="button" onClick={() => fetchData()}>Fetch</button>
+                <br />
+                <input type="text" name="name-filter" id="name-filter" onInput={(e) => filterListByItemName(e.target)} />
 
-            <ul>
-                {
-                    apiResponse.results.map((pokemon,) => {
-                        return <li key={getIdFromUrl(pokemon.url)}>
-                            <Image
-                                src={`sprites/master/sprites/pokemon/${getIdFromUrl(pokemon.url)}.png`}
-                                alt={pokemon.name}
-                                width={75}
-                                height={75}
-                                loader={loadImagePath}
-                            />
-                            <Link href={"/pokemon/" + pokemon.name}> { pokemon.name } </Link>
-                        </li>
-                    })
-                }
-            </ul>
+                <ul>
+                    {
+                        apiResponse.results.map((pokemon,) => {
+                            return <li key={getIdFromUrl(pokemon.url)}>
+                                <Image
+                                    src={`sprites/master/sprites/pokemon/${getIdFromUrl(pokemon.url)}.png`}
+                                    alt={pokemon.name}
+                                    width={75}
+                                    height={75}
+                                    loader={loadImagePath}
+                                />
+                                <Link href={"/pokemon/" + pokemon.name}> { pokemon.name } </Link>
+                            </li>
+                        })
+                    }
+                </ul>
 
-            <Paginator count={apiResponse.count} limit={filters.limit} offset={filters.offset} onPagination={handlePagination} onRowsChange={handleRowsChange} />
-        </main>
+                <Paginator count={apiResponse.count} limit={filters.limit} offset={filters.offset} onPagination={handlePagination} onRowsChange={handleRowsChange} />
+            </main>
+        </>
     )
 }
