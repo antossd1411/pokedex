@@ -5,7 +5,10 @@ import styles from "@/styles/components/Nav.module.css"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown, faXmark } from "@fortawesome/free-solid-svg-icons";
 
-export default function Nav() {
+export default function Nav({
+    show = false,
+    setShow,
+}) {
     const [navItems, setNavItems] = useState([]);
 
     const orginizeItems = (items = {}) => {
@@ -69,40 +72,46 @@ export default function Nav() {
     }, [])
 
     return (
-        <nav className={styles.nav}>
-            <ul className={styles.container}>
-                <p className={styles.closeContainer}>
-                    <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={() => console.log("Close!")} />
-                </p>
-
-                {
-                    navItems.map((item) => {
-                        return <li key={item.name} className={styles.li}>
-                            <div className={styles.liHeader}>
-                                <Link href={`/${item.name}`} className={styles.link}> { item.name } </Link>
-
-                                {
-                                    item.children.length > 0 &&
-                                    <FontAwesomeIcon
-                                        icon={faCaretDown}
-                                        rotation={item.toggled ? 270 : 0}
-                                        onClick={() => toggleNavItemChildren(item.name)}
-                                    />
-                                }
-                            </div>
-
-                            {
-                                (item.children.length > 0 && item.toggled) &&
-                                <ul className={styles.childrenList}>
+        <>
+            {
+                show && (
+                <nav className={styles.nav}>
+                    <ul className={styles.container}>
+                        <p className={styles.closeContainer}>
+                            <FontAwesomeIcon icon={faXmark} className={styles.close} onClick={() => setShow(false)} />
+                        </p>
+        
+                        {
+                            navItems.map((item) => {
+                                return <li key={item.name} className={styles.li}>
+                                    <div className={styles.liHeader}>
+                                        <Link href={`/${item.name}`} className={styles.link}> { item.name } </Link>
+        
+                                        {
+                                            item.children.length > 0 &&
+                                            <FontAwesomeIcon
+                                                icon={faCaretDown}
+                                                rotation={item.toggled ? 270 : 0}
+                                                onClick={() => toggleNavItemChildren(item.name)}
+                                            />
+                                        }
+                                    </div>
+        
                                     {
-                                        item.children.map((child) => (<li key={child} className={styles.li}> <Link href={`/${child}`} className={styles.link}> { child.replace('-', ' ') } </Link> </li>))
+                                        (item.children.length > 0 && item.toggled) &&
+                                        <ul className={styles.childrenList}>
+                                            {
+                                                item.children.map((child) => (<li key={child} className={styles.li}> <Link href={`/${child}`} className={styles.link}> { child.replace('-', ' ') } </Link> </li>))
+                                            }
+                                        </ul>
                                     }
-                                </ul>
-                            }
-                        </li>
-                    })
-                }
-            </ul>
-        </nav>
+                                </li>
+                            })
+                        }
+                    </ul>
+                </nav>
+                )
+            }
+        </>
     )
 }
