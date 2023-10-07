@@ -30,6 +30,7 @@ export default function SearchBar({
 
     const handleReset = (e) => {
         setInputValue("");
+        setElements([]);
     }
 
     if (!uriSegment.trim()) return <></>
