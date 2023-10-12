@@ -1,12 +1,25 @@
-export default class Pokemons {
+export default class Pokemons extends Element {
+    abilities;
+    base_experience;
+    height;
+    is_default;
+    moves;
+    order;
+    sprites;
+    stats;
+    types;
+    weight;
+    frontSprite;
+    backSprite;
+
     constructor({
+        id = 0,
+        name = "",
         abilities = [],
         base_experience = 0,
         height = 0,
-        id = 0,
         is_default = false,
         moves = [],
-        name = "",
         order = 0,
         sprites = [],
         stats = [],
@@ -15,13 +28,13 @@ export default class Pokemons {
         frontSprite = "",
         backSprite = "",
     }) {
+        super({ id: id, name: name });
+
         this.abilities = abilities;
         this.base_experience = base_experience;
         this.height = height;
-        this.id = id;
         this.is_default = is_default;
         this.moves = moves;
-        this.name = name;
         this.order = order;
         this.sprites = sprites;
         this.stats = stats;

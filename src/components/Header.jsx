@@ -10,10 +10,10 @@ export default function Header() {
     return (
         <>
             <header className={styles.header}>
-                <FontAwesomeIcon icon={faBars} onClick={() => setShow(true)} />
+                {/* <FontAwesomeIcon icon={faBars} onClick={() => setShow(true)} /> */}
                 Pokedex
             </header>
-            <Nav show={show} setShow={setShow} />
+            {/* <Nav show={show} setShow={setShow} /> */}
         </>
     )
 }

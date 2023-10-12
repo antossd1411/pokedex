@@ -1,0 +1,38 @@
+.card {
+    /* border: 1px solid black; */
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background-color: white;
+}
+
+.imageContainer {
+    /* border: 1px solid black; */
+    text-align: center;
+}
+
+.number {
+    line-height: 2.5rem;
+    font-size: small;
+    color: #999;
+}
+
+.name {
+    font-size: larger;
+    color: #333;
+    text-transform: capitalize;
+    font-weight: 600;
+}
+
+.buttonContainer {
+    padding-top: 1rem;
+    text-align: center;
+}
+
+.button {
+    background-color: #ff1616;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 2rem;
+    cursor: pointer;
+}
