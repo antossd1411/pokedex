@@ -1,4 +1,6 @@
 .listContainer {
+    background-color: #f2f2f2;
+    padding: 1rem;
     width: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;

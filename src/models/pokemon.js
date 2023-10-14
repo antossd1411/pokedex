@@ -1,4 +1,6 @@
-export default class Pokemons extends Element {
+import ElementModel from "./element";
+
+export default class Pokemons extends ElementModel {
     abilities;
     base_experience;
     height;
@@ -9,8 +11,6 @@ export default class Pokemons extends Element {
     stats;
     types;
     weight;
-    frontSprite;
-    backSprite;
 
     constructor({
         id = 0,
@@ -21,14 +21,12 @@ export default class Pokemons extends Element {
         is_default = false,
         moves = [],
         order = 0,
-        sprites = [],
+        sprites = {},
         stats = [],
         types = [],
         weight = 0,
-        frontSprite = "",
-        backSprite = "",
     }) {
-        super({ id: id, name: name });
+        super( id, name );
 
         this.abilities = abilities;
         this.base_experience = base_experience;
@@ -40,7 +38,5 @@ export default class Pokemons extends Element {
         this.stats = stats;
         this.types = types;
         this.weight = weight;
-        this.frontSprite = frontSprite;
-        this.backSprite = backSprite;
     }
 }

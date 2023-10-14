@@ -1,0 +1,11 @@
+.container {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: 20% auto;
+}
+
+.moves {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+}

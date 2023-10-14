@@ -46,7 +46,7 @@ export default function MainList({}) {
     }
 
     function filterByName(filter = "", elements = []) {
-        return elements.filter(({ name }) => name.startsWith(filter));
+        return elements.filter(({ name }) => name.startsWith(filter.toLowerCase()));
     }
 
     function sort(attribute = "", isDesc = false, elements = []) {
