@@ -1,10 +1,12 @@
 import styles from "@/styles/components/ListElement.module.css";
 import loadImagePath from "@/utils/image/loader";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export default function ListElement({
     data = null,
 }) {
+    const router = useRouter();
 
     const id = data.url.split('/').filter(segment => segment).pop();
 
@@ -25,7 +27,7 @@ export default function ListElement({
                 <p className={styles.name}>{ data.name }</p>
             </div>
             <div className={styles.buttonContainer}>
-                <button className={styles.button}>Ver mas</button>
+                <button className={styles.button} onClick={() => router.push(`/pokemon/${id}`)}>Ver mas</button>
             </div>
         </article>
     )

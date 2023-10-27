@@ -4,8 +4,23 @@
     grid-template-columns: 20% auto;
 }
 
+.aside {
+    padding-left: 0.5rem;
+}
+
 .moves {
     display: grid;
     gap: 1rem;
     grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+
+.link {
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    text-transform: capitalize;
+    margin-top: 0.5rem;
+}
+
+.link:hover {
+    background-color: #f2f2f2;
 }

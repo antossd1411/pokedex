@@ -5,4 +5,33 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 1rem;
+    border-radius: 0.5rem;
+}
+
+.filter {
+    display: flex;
+    align-items: center;
+}
+
+.marginRight {
+    margin-right: 1rem;
+}
+
+.paginator {
+    padding-top: 2rem;
+    padding-bottom: 1rem;
+    font-size: large;
+    text-align: center;
+}
+
+.marginX {
+    margin-left: 1rem;
+    margin-right: 1rem;
+}
+
+.button {
+    padding: 0.25rem 0.5rem;
+    font-size: large;
+    outline: none;
+    cursor: pointer;
 }

@@ -109,6 +109,14 @@ section {
   padding-bottom: 0;
 }
 
+input[type=text], select {
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  outline: none;
+  font-size: medium;
+  border: 1px solid #808080;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

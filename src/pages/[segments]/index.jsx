@@ -2,8 +2,32 @@ import { fetchElements } from "@/services/list";
 import { useEffect, useRef, useState } from "react";
 import styles from "@/styles/PokemonList.module.css";
 import ListElement from "@/components/ListElement";
+import Head from "next/head";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft, faAngleRight, faAnglesLeft, faAnglesRight } from "@fortawesome/free-solid-svg-icons";
+import getIdFromUrl from "@/utils/image/string";
 
-export default function MainList({}) {
+export async function getStaticPaths() {
+    return {
+        paths: [
+            { params: { segments: 'pokemon' } },
+            { params: { segments: 'move' } },
+        ],
+        fallback: false
+    }
+}
+
+export async function getStaticProps({ params }) {
+    const { segments } = params;
+    
+    return {
+        props: {
+            segments
+        }
+    }
+}
+
+export default function MainList({ segments }) {
     const elements = useRef([]);
 
     const [stateElements, setStateElements] = useState([]);
@@ -18,7 +42,7 @@ export default function MainList({}) {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await fetchElements('pokemon');
+            const response = await fetchElements(segments);
 
             if (!response.ok) {
                 throw new Error("Fetching error: ".concat(response.status));
@@ -33,7 +57,7 @@ export default function MainList({}) {
         }
 
         fetchData();
-    }, [])
+    }, [segments])
 
     const handleFilter = ({ value }) => {
         const filteredElements = filterByName(value, elements.current);
@@ -54,8 +78,8 @@ export default function MainList({}) {
 
         if (attribute.toLowerCase() === "id") {
             newElements.sort((a, b) => {
-                const aId = a.url.split('/').filter((segment) => segment).pop();
-                const bId = b.url.split('/').filter((segment) => segment).pop();
+                const aId = getIdFromUrl(a.url);
+                const bId = getIdFromUrl(b.url);
 
                 if (isDesc) {
                     return bId - aId;
@@ -107,18 +131,21 @@ export default function MainList({}) {
 
     return (
         <>
-            <section>
-                <input type="text" id="filterName" name="filterName" placeholder="Filter by name" value={filteringName} onInput={({target}) => handleFilter(target)} />
+        <Head>
+            <title>{ segments.toUpperCase() } | Pokedex</title>
+        </Head>
+            <section className={styles.filter}>
+                <input type="text" id="filterName" name="filterName" className={styles.marginRight} placeholder="Filter by name" value={filteringName} onInput={({target}) => handleFilter(target)} />
                 <label htmlFor="sortBySelector">
-                    Sort by
-                    <select id="sortBySelector" name="sortBySelector" value={sortingAttribute} onChange={({target}) => handleSorting(target, isDesc)}>
+                    <span className={styles.marginRight}>Sort by</span>
+                    <select id="sortBySelector" name="sortBySelector" className={styles.marginRight} value={sortingAttribute} onChange={({target}) => handleSorting(target, isDesc)}>
                         <option value="id">Id</option>
                         <option value="name">Name</option>
                     </select>
                 </label>
                 <label htmlFor="sortingOrder">
-                    <input type="checkbox" id="sortingOrder" name="sortingOrder" value={isDesc} onChange={({target}) => handleSortingCheck(target)} />
-                    DESC
+                    <input type="checkbox" id="sortingOrder" name="sortingOrder" className={styles.marginRight} value={isDesc} onChange={({target}) => handleSortingCheck(target)} />
+                    <span>DESC</span>
                 </label>
             </section>
             <section>
@@ -130,12 +157,20 @@ export default function MainList({}) {
                     }
                 </ul>
             </section>
-            <section>
-                Page { page } - { totalPages }
-                <button disabled={page === 1} onClick={() => handlePagination()}>To Atra</button>
-                <button disabled={page === 1} onClick={() => handlePagination(page - 1)}>Atra</button>
-                <button disabled={page === totalPages} onClick={() => handlePagination(page + 1)}>Alante</button>
-                <button disabled={page === totalPages} onClick={() => handlePagination(totalPages)}>To Alante</button>
+            <section className={styles.paginator}>
+                <button className={`${styles.button}`} disabled={page === 1} onClick={() => handlePagination()}>
+                    <FontAwesomeIcon icon={faAnglesLeft} />
+                </button>
+                <button className={`${styles.marginX} ${styles.button}`} disabled={page === 1} onClick={() => handlePagination(page - 1)}>
+                    <FontAwesomeIcon icon={faAngleLeft} />
+                </button>
+                <span>Page { page } - { totalPages }</span>
+                <button className={`${styles.marginX} ${styles.button}`} disabled={page === totalPages} onClick={() => handlePagination(page + 1)}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                </button>
+                <button className={`${styles.button}`} disabled={page === totalPages} onClick={() => handlePagination(totalPages)}>
+                    <FontAwesomeIcon icon={faAnglesRight} />
+                </button>
             </section>
         </>
     )
