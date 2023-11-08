@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 import Types from "@/models/type";
 import { fetchType } from "@/services/type";
@@ -6,11 +5,27 @@ import Link from "next/link";
 import getIdFromUrl from "@/utils/image/string";
 import Head from "next/head";
 
-export default function Type() {
-    const router = useRouter();
-    const [type, setType] = useState(new Types({}));
+export function getStaticPaths() {
+    return {
+        paths: new Array(20).map((_, index) => {
+            return { params: { id: index.toString() } }
+        }),
+        fallback: false,
+    }
+}
 
-    const { id } = router.query;
+export function getStaticProps({ params }) {
+    const { id } = params;
+    return {
+        props: {
+            id
+        }
+    }
+}
+
+
+export default function Type({ id }) {
+    const [type, setType] = useState(new Types({}));
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,7 +51,11 @@ export default function Type() {
         }
     }, [id]);
 
-    if (type.id === 0) return '';
+    if (type.id === 0) return (
+        <Head>
+            <title>Type | Pokedex</title>
+        </Head>
+    )
 
     const name = type.name.charAt(0).toUpperCase() + type.name.substring(1);
     const damageRelations = Object.entries(type.damage_relations);

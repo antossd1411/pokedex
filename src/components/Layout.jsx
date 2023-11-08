@@ -7,7 +7,6 @@ export default function Layout({ children }) {
         <>
             <Head>
                 <meta name="viewport" content="width=device-width, initial-scale=1" />
-                {/* <link /> */}
             </Head>
             <Header></Header>
             <main>{ children }</main>

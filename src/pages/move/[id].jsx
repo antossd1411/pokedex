@@ -3,32 +3,26 @@ import { fetchMove } from "@/services/move";
 import getIdFromUrl from "@/utils/image/string";
 import Head from "next/head";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 
-// export async function getStaticPaths() {
-//     const res = await fetch(``);
-//     const moves = await res.json();
-//     const paths = moves.map(move => getIdFromUrl(move.url));
-    
-//     return {
-//         paths,
-//         fallback: false
-//     }
-// }
+export async function getStaticPaths() {
+    return {
+        paths: new Array(922).map((_, index) => index + 1),
+        fallback: false
+    }
+}
 
-// export async function getStaticProps({ params }) {
-//     console.log(params)
-//     return {
-//         props: {}
-//     }
-// }
+export async function getStaticProps({ params }) {
+    const { id } = params;
+    return {
+        props: {
+            id
+        }
+    }
+}
 
-export default function Move() {
-    const router = useRouter();
+export default function Move({ id }) {
     const [move, setMove] = useState(new Moves({}));
-
-    const { id } = router.query;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -54,7 +48,11 @@ export default function Move() {
         }
     }, [id]);
 
-    if (move.id === 0) return '';
+    if (move.id === 0) return (
+        <Head>
+            <title>Move | Pokemon</title>
+        </Head>
+    )
 
     const name = move.name.charAt(0).toUpperCase() + move.name.substring(1);
 

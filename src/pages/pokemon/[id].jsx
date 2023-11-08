@@ -1,17 +1,35 @@
 import Carousel from "@/components/Carousel";
 import Pokemons from "@/models/pokemon";
 import { fetchPokemon } from "@/services/pokemon";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react"
 import styles from "@/styles/PokemonPage.module.css";
 import Link from "next/link";
 import Head from "next/head";
+import getIdFromUrl from "@/utils/image/string";
 
-export default function Pokemon() {
-    const router = useRouter();
+export function getStaticPaths() {
+    const initialIds = [];
+    
+    // Getting Pokemon up to Gen VI
+    for (let index = 1; index <= 721; index++) initialIds.push({ params: { id: index.toString() } });
+
+    return {
+        paths: initialIds,
+        fallback: true,
+    }
+}
+
+export function getStaticProps({ params }) {
+    const { id } = params;
+    return {
+        props: {
+            id
+        }
+    }
+}
+
+export default function Pokemon({ id }) {
     const [pokemon, setPokemon] = useState(new Pokemons({}));
-
-    const { id } = router.query;
 
     useEffect(() => {
         const fetchData = async () => {
@@ -37,7 +55,11 @@ export default function Pokemon() {
         }
     }, [id]);
 
-    if (pokemon.id === 0) return '';
+    if (pokemon.id === 0) return (
+        <Head>
+            <title>Pokemon | Pokedex</title>
+        </Head>
+    )
 
     const name = pokemon.name.charAt(0).toUpperCase() + pokemon.name.substring(1);
     const sprites = Object.values(pokemon.sprites).filter(url => url && typeof url === 'string');
@@ -45,7 +67,7 @@ export default function Pokemon() {
     return (
         <>
             <Head>
-                <title>{name} | Pokedex</title>
+                <title>{name.concat(" | Pokedex")}</title>
             </Head>
             <div className={styles.container}>
                 <aside className={styles.aside}>
@@ -92,7 +114,7 @@ export default function Pokemon() {
                         <p>Abilities</p>
                         {
                             pokemon.abilities.map(ability => {
-                                const url = ability.ability.url.replace(process.env.POKEAPI_URL, '');
+                                const url = getIdFromUrl(ability.ability.url);                                
 
                                 return <Link key={ability.slot} href={`${url}`}>
                                     <li className={styles.link}> { ability.ability.name } { ability.is_hidden && "(Hidden)" } </li>
@@ -108,7 +130,7 @@ export default function Pokemon() {
                         <ul className={styles.moves}>
                             {
                                 pokemon.moves.map(move => {
-                                    const url = move.move.url.replace(process.env.POKEAPI_URL, '');
+                                    const url = getIdFromUrl(move.move.url);
                                     
                                     return <Link key={move.move.name} href={url}> <li> { move.move.name } </li> </Link>
                                 })

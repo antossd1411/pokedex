@@ -12,6 +12,8 @@ export async function getStaticPaths() {
         paths: [
             { params: { segments: 'pokemon' } },
             { params: { segments: 'move' } },
+            { params: { segments: 'type' } },
+            { params: { segments: 'item' } },
         ],
         fallback: false
     }
@@ -27,7 +29,7 @@ export async function getStaticProps({ params }) {
     }
 }
 
-export default function MainList({ segments }) {
+export default function MainList({ segments = "" }) {
     const elements = useRef([]);
 
     const [stateElements, setStateElements] = useState([]);
@@ -131,9 +133,10 @@ export default function MainList({ segments }) {
 
     return (
         <>
-        <Head>
-            <title>{ segments.toUpperCase() } | Pokedex</title>
-        </Head>
+            <Head>
+                <title>{ segments.toUpperCase().concat(" | Pokedex") }</title>
+                <meta name="description" content="Pokemon list - Pokedex App built with Next Js" />
+            </Head>
             <section className={styles.filter}>
                 <input type="text" id="filterName" name="filterName" className={styles.marginRight} placeholder="Filter by name" value={filteringName} onInput={({target}) => handleFilter(target)} />
                 <label htmlFor="sortBySelector">
